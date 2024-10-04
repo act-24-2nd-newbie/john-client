@@ -1,0 +1,48 @@
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 48px;
+    padding: 10px 16px;
+    background: #6c77a7;
+    color: #fff;
+
+    & .left-area {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+        user-select: none;
+
+        & .todo-icon {
+            width: 24px;
+            height: 24px;
+            background-image: url("../assets/ic_topbar_menu.svg");
+        }
+
+        & .title-wrapper {
+            font-weight: 700;
+            font-size: 24px;
+        }
+
+    }
+
+    & .right-area {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+
+        & .date-wrapper {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        & .button-wrapper {
+            font-size: 14px;
+            border: 1px solid #fff;
+            padding: 6px 12px;
+            border-radius: 4px;
+            user-select: none;
+        }
+    }
+}
