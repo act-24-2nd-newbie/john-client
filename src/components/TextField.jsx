@@ -1,4 +1,4 @@
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import styles from './TextField.module.css';
 
 export default function TextField({
@@ -6,13 +6,20 @@ export default function TextField({
                                       value = '',
                                       showBorder = false,
                                       placeholder = 'Hint text',
+                                      onChange,
                                       onSubmit
                                   }) {
     const [innerValue, setInnerValue] = useState(value);
     const inputRef = useRef(null);
 
+    useEffect(() => {
+        setInnerValue(value);
+    }, [value]);
+
     function handleChangeValue(e) {
-        setInnerValue(e.target.value);
+        const text = e.target.value;
+        setInnerValue(text);
+        onChange?.(text);
     }
 
     function handleClearClick() {

@@ -1,18 +1,28 @@
 import styles from "./HomePage.module.css"
 import {useNavigate} from "react-router-dom";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import TextField from "../components/TextField.jsx";
+import taskService from "../services/taskService.js";
 
 export default function HomePage() {
     const navigate = useNavigate();
     const userName = sessionStorage.getItem("userName");
+    const [todos, setTodos] = useState([]);
+    const [contents, setContents] = useState('');
 
     useEffect(() => {
         !userName && navigate('/login');
     }, [])
 
-    function handleSubmit() {
+    function handleChangeTodo(text) {
+        setContents(text);
+    }
 
+    async function handleSubmit() {
+        await taskService.createTask({contents});
+        setContents('');
+        const todos = await taskService.getTasks();
+        setTodos(todos);
     }
 
     return (
@@ -25,7 +35,8 @@ export default function HomePage() {
                     <div className={styles['text-wrapper']}>tasks Today</div>
                 </div>
                 <div className={styles['text-field-wrapper']}>
-                    <TextField placeholder={'Enter your task'} onSubmit={handleSubmit}/>
+                    <TextField value={contents} placeholder={'Enter your task'} onChange={handleChangeTodo}
+                               onSubmit={handleSubmit}/>
                 </div>
             </div>
             <div className={styles['todo-list-wrapper']}>
