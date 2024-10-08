@@ -1,0 +1,30 @@
+.home-page {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    & .top-area {
+        display: flex;
+        flex-direction: column;
+        font-size: 24px;
+        font-weight: 400;
+        gap: 16px;
+        flex: 0 0 292px;
+        padding: 24px 60px;
+        color: #2C3E50;
+
+        & .text-wrapper{
+            line-height: 1.5;
+        }
+        & .number-wrapper{
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 72px;
+        }
+    }
+
+    & .todo-list-wrapper {
+        flex: 1;
+        background-color: #f4f4f4;
+    }
+}

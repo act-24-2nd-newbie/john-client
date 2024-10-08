@@ -2,7 +2,7 @@ import styles from './TopBar.module.css';
 import {useNavigate} from "react-router-dom";
 import dateUtil from "../utils/dateUtil.js";
 
-export default function TopBar() {
+export default function TopBar({isLoggedIn = false}) {
     const navigate = useNavigate();
 
     function handleClickLeftArea() {
@@ -17,7 +17,7 @@ export default function TopBar() {
             </div>
             <div className={styles['right-area']}>
                 <div className={styles['date-wrapper']}>{dateUtil.getFormattedDate("MM/DD (ddd)")}</div>
-                <div className={styles['button-wrapper']}>Sign up</div>
+                <div className={styles['button-wrapper']}>{isLoggedIn ? 'Logout' : 'Sign up'}</div>
             </div>
         </div>
     );

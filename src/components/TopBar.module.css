@@ -1,8 +1,8 @@
 .top-bar {
+    flex: 0 0 48px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 48px;
     padding: 10px 16px;
     background: #6c77a7;
     color: #fff;
@@ -43,6 +43,7 @@
             padding: 6px 12px;
             border-radius: 4px;
             user-select: none;
+            cursor: pointer;
         }
     }
 }
