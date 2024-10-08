@@ -1,0 +1,82 @@
+.text-field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+
+    &.border {
+        border: 1px solid #2a82f0;
+        border-radius: 4px;
+        padding: 18px 16px;
+
+        & .input-wrapper {
+            border-bottom: none;
+        }
+
+    }
+
+    &.no-border {
+        & .input-wrapper {
+            padding: 4px 0;
+            border-bottom: 1px solid #ccc;
+
+            &:focus-within {
+                border-bottom: 1px solid #2a82f0;
+            }
+        }
+    }
+
+    & .input-wrapper {
+        display: flex;
+        align-items: center;
+        flex: 1;
+
+        & input {
+            flex: 1;
+            height: 24px;
+            border: none;
+
+            &:focus {
+                outline: none;
+            }
+        }
+
+        & .clear-button-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 0 0 24px;
+            height: 24px;
+
+            & .clear-button {
+                width: 20px;
+                height: 20px;
+                background-repeat: no-repeat;
+                background-image: url("../assets/ic_delete.svg");
+                cursor: pointer;
+            }
+        }
+    }
+
+    & .send-button-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 0 0 24px;
+        height: 24px;
+
+        & .send-button {
+            width: 20px;
+            height: 20px;
+            background-repeat: no-repeat;
+            background-image: url("../assets/ic_send.svg");
+            cursor: pointer;
+
+            &.disabled {
+                background-image: url("../assets/ic_send_disabled.svg");
+            }
+        }
+    }
+}

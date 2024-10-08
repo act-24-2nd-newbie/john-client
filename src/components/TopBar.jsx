@@ -9,7 +9,7 @@ export default function TopBar() {
         navigate("/");
     }
 
-    return (<>
+    return (
         <div className={styles['top-bar']}>
             <div className={styles['left-area']} onClick={handleClickLeftArea}>
                 <div className={styles['todo-icon']}/>
@@ -20,5 +20,5 @@ export default function TopBar() {
                 <div className={styles['button-wrapper']}>Sign up</div>
             </div>
         </div>
-    </>);
+    );
 }
