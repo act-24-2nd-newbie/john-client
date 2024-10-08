@@ -29,7 +29,11 @@ export default function HomePage() {
                 </div>
             </div>
             <div className={styles['todo-list-wrapper']}>
-                hi
+                <div>oldest랑 clearAll</div>
+                <div className={styles['empty-wrapper']}>
+                    <div className={styles['empty-image-wrapper']}/>
+                    <div className={styles['empty-text-wrapper']}>There is no task registered.</div>
+                </div>
             </div>
         </div>
     )

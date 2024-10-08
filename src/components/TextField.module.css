@@ -53,8 +53,7 @@
             & .clear-button {
                 width: 20px;
                 height: 20px;
-                background-repeat: no-repeat;
-                background-image: url("../assets/ic_delete.svg");
+                background: url("../assets/ic_delete.svg") no-repeat;
                 cursor: pointer;
             }
         }
@@ -70,8 +69,7 @@
         & .send-button {
             width: 20px;
             height: 20px;
-            background-repeat: no-repeat;
-            background-image: url("../assets/ic_send.svg");
+            background: url("../assets/ic_send.svg") no-repeat;
             cursor: pointer;
 
             &.disabled {
