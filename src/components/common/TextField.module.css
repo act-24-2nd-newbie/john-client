@@ -9,6 +9,7 @@
         border: 1px solid #2a82f0;
         border-radius: 4px;
         padding: 18px 16px;
+        background-color: #fff;
 
         & .input-wrapper {
             box-shadow: none;
@@ -53,7 +54,7 @@
             & .clear-button {
                 width: 20px;
                 height: 20px;
-                background: url("../assets/ic_delete.svg") no-repeat;
+                background: url("../../assets/ic_delete.svg") no-repeat;
                 cursor: pointer;
             }
         }
@@ -69,11 +70,11 @@
         & .send-button {
             width: 20px;
             height: 20px;
-            background: url("../assets/ic_send.svg") no-repeat;
+            background: url("../../assets/ic_send.svg") no-repeat;
             cursor: pointer;
 
             &.disabled {
-                background-image: url("../assets/ic_send_disabled.svg");
+                background-image: url("../../assets/ic_send_disabled.svg");
             }
         }
     }

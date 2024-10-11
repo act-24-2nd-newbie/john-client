@@ -1,4 +1,4 @@
-import TextField from "../components/TextField.jsx";
+import TextField from "../components/common/TextField.jsx";
 import styles from "./LoginPage.module.css"
 import {useNavigate} from "react-router-dom";
 import {useRecoilState} from "recoil";

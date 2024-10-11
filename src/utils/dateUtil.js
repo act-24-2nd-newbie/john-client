@@ -2,10 +2,15 @@ import moment from "moment";
 
 const today = moment();
 
-function getFormattedDate(dateFormat) {
-    return today.format(dateFormat);
+function getFormattedDate(date, dateFormat) {
+    return moment(date).format(dateFormat);
+}
+
+function getTodayWithFormattedDate(dateFormat) {
+    return getFormattedDate(today, dateFormat);
 }
 
 export default {
-    getFormattedDate
+    getFormattedDate,
+    getTodayWithFormattedDate
 };
