@@ -55,7 +55,7 @@ export default function HomePage() {
         setSelectedTaskId(null);
     }
 
-    async function handleChangeTasks(taskId, contents) {
+    async function handleTasksChange(taskId, contents) {
         const task = tasks.find(task => task.id === taskId);
         if (task.contents === contents) {
             inputRef?.current?.focus();
@@ -67,6 +67,16 @@ export default function HomePage() {
     async function handleCheckboxClick(e, taskId) {
         const task = tasks.find(task => task.id === taskId);
         await updateTask(taskId, {contents: task.contents, isDone: e.target.checked})
+    }
+
+    async function handleDeleteIconClick(taskId) {
+        await taskService.deleteTask(taskId);
+        await getTasks();
+    }
+
+    async function handleDeleteAllClick() {
+        await taskService.deleteAllTasks();
+        await getTasks();
     }
 
     return (
@@ -89,8 +99,7 @@ export default function HomePage() {
                         <div style={{height: '40px', background: '#fff'}}>드랍다운</div>
                     </div>
                     <div className={styles['clear-all-button-wrapper']}>
-                        <Button onClick={() => {
-                        }}>Clear All</Button>
+                        <Button onClick={handleDeleteAllClick}>Clear All</Button>
                     </div>
                 </div>
                 {tasks.length ? <div className={styles['todo-container']}>
@@ -99,12 +108,13 @@ export default function HomePage() {
                                 <TextField ref={inputRef} key={todo.id} value={todo.contents} showBorder
                                            onClickOutside={handleOutsideClick}
                                            onSubmit={async (contents) => {
-                                               await handleChangeTasks(todo.id, contents)
+                                               await handleTasksChange(todo.id, contents)
                                            }}
                                 /> :
                                 <TaskItem key={todo.id} task={todo}
                                           onClickContents={handleContentsClick}
                                           onClickCheckbox={handleCheckboxClick}
+                                          onClickDeleteIcon={handleDeleteIconClick}
                                 />
                         })}
                     </div> :

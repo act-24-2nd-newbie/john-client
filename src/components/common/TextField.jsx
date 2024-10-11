@@ -6,6 +6,7 @@ function TextField({
                        value = '',
                        showBorder = false,
                        placeholder = 'Hint text',
+                       maxLength = 255,
                        onChange,
                        onSubmit,
                        onClickOutside
@@ -64,7 +65,8 @@ function TextField({
                  className={`${styles['text-field']} ${showBorder ? styles['border'] : styles['no-border']}`}
                  style={{width: width}}>
         <div className={styles['input-wrapper']}>
-            <input ref={inputRef} value={innerValue} onChange={handleChangeValue} placeholder={placeholder}
+            <input ref={inputRef} value={innerValue} maxLength={maxLength} onChange={handleChangeValue}
+                   placeholder={placeholder}
                    onKeyDown={handleKeyDown}/>
             {
                 trimmedValue() && !showBorder &&

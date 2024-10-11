@@ -4,7 +4,8 @@ import dateUtil from "../utils/dateUtil.js";
 export default function TaskItem({
                                      task,
                                      onClickContents,
-                                     onClickCheckbox
+                                     onClickCheckbox,
+    onClickDeleteIcon
                                  }) {
     function formattedDate() {
         const createdDateString = `Created: ${dateUtil.getFormattedDate(task.createdDate, 'MM/DD HH:mm')}`;
@@ -20,6 +21,10 @@ export default function TaskItem({
         onClickCheckbox?.(e, task.id);
     }
 
+    function handleDeleteIconClick() {
+        onClickDeleteIcon?.(task.id);
+    }
+
     return (
         <div className={styles['task-item']}>
             <div className={styles['checkbox-wrapper']}>
@@ -30,7 +35,7 @@ export default function TaskItem({
                 <div className={`${styles['task-item-content']} ${task.isDone && styles['done']}`}>{task.contents}</div>
                 <div className={styles['task-item-date-wrapper']}>{formattedDate()}</div>
             </div>
-            <div className={styles['delete-icon-wrapper']}/>
+            <div className={styles['delete-icon-wrapper']} onClick={handleDeleteIconClick}/>
         </div>
     )
 }
