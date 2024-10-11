@@ -30,6 +30,12 @@ export default function HomePage() {
         setTasks(todos.sort((a, b) => ((new Date(b) - new Date(a)) * -1)));
     }
 
+    async function updateTask(taskId, task) {
+        await taskService.updateTask(taskId, task);
+        setSelectedTaskId(null);
+        await getTasks();
+    }
+
     function handleChangeTodo(text) {
         setContents(text);
     }
@@ -54,14 +60,13 @@ export default function HomePage() {
         if (task.contents === contents) {
             inputRef?.current?.focus();
         } else {
-            await taskService.updateTask(taskId, {contents});
-            setSelectedTaskId(null);
-            await getTasks();
+            await updateTask(taskId, {contents, isDone: task.isDone})
         }
     }
 
-    function handleCheckboxClick() {
-        console.log('click');
+    async function handleCheckboxClick(e, taskId) {
+        const task = tasks.find(task => task.id === taskId);
+        await updateTask(taskId, {contents: task.contents, isDone: e.target.checked})
     }
 
     return (

@@ -2,7 +2,7 @@ import styles from './TaskItem.module.css'
 import dateUtil from "../utils/dateUtil.js";
 
 export default function TaskItem({
-                                     task = {id: '', contents: '', isDone: false, createdDate: '', modifiedDate: '',},
+                                     task,
                                      onClickContents,
                                      onClickCheckbox
                                  }) {
@@ -16,8 +16,8 @@ export default function TaskItem({
         !task.isDone && onClickContents?.(e, task.id);
     }
 
-    function handleCheckboxClick() {
-        onClickCheckbox?.(task.id);
+    function handleCheckboxClick(e) {
+        onClickCheckbox?.(e, task.id);
     }
 
     return (
