@@ -1,6 +1,6 @@
 import styles from "./HomePage.module.css"
 import {useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import TextField from "../components/common/TextField.jsx";
 import taskService from "../services/taskService.js";
 import TaskItem from "../components/TaskItem.jsx";
@@ -9,9 +9,10 @@ import Button from "../components/common/Button.jsx";
 export default function HomePage() {
     const navigate = useNavigate();
     const userName = sessionStorage.getItem("userName");
-    const [todos, setTodos] = useState([]);
+    const [tasks, setTasks] = useState([]);
     const [contents, setContents] = useState('');
     const [selectedTaskId, setSelectedTaskId] = useState(null);
+    const inputRef = useRef(null);
 
     useEffect(() => {
         !userName && navigate('/login');
@@ -20,9 +21,13 @@ export default function HomePage() {
         })();
     }, [])
 
+    useEffect(() => {
+        inputRef?.current?.focus();
+    }, [selectedTaskId]);
+
     async function getTasks() {
         const todos = await taskService.getTasks();
-        setTodos(todos.sort((a, b) => ((new Date(b) - new Date(a)) * -1)));
+        setTasks(todos.sort((a, b) => ((new Date(b) - new Date(a)) * -1)));
     }
 
     function handleChangeTodo(text) {
@@ -35,8 +40,28 @@ export default function HomePage() {
         await getTasks();
     }
 
-    function handleContentsClick(taskId) {
+    function handleContentsClick(e, taskId) {
+        e.stopPropagation();
         setSelectedTaskId(taskId);
+    }
+
+    function handleOutsideClick() {
+        setSelectedTaskId(null);
+    }
+
+    async function handleChangeTasks(taskId, contents) {
+        const task = tasks.find(task => task.id === taskId);
+        if (task.contents === contents) {
+            inputRef?.current?.focus();
+        } else {
+            await taskService.updateTask(taskId, {contents});
+            setSelectedTaskId(null);
+            await getTasks();
+        }
+    }
+
+    function handleCheckboxClick() {
+        console.log('click');
     }
 
     return (
@@ -63,11 +88,19 @@ export default function HomePage() {
                         }}>Clear All</Button>
                     </div>
                 </div>
-                {todos.length ? <div className={styles['todo-container']}>
-                        {todos.map(todo => {
+                {tasks.length ? <div className={styles['todo-container']}>
+                        {tasks.map(todo => {
                             return selectedTaskId === todo.id ?
-                                <TextField key={todo.id} value={todo.contents} showBorder/> :
-                                <TaskItem key={todo.id} task={todo} onClickContents={handleContentsClick}/>
+                                <TextField ref={inputRef} key={todo.id} value={todo.contents} showBorder
+                                           onClickOutside={handleOutsideClick}
+                                           onSubmit={async (contents) => {
+                                               await handleChangeTasks(todo.id, contents)
+                                           }}
+                                /> :
+                                <TaskItem key={todo.id} task={todo}
+                                          onClickContents={handleContentsClick}
+                                          onClickCheckbox={handleCheckboxClick}
+                                />
                         })}
                     </div> :
                     <div className={styles['empty-wrapper']}>

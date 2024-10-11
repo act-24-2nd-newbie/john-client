@@ -8,8 +8,8 @@ function getTasks() {
     return httpClient.get("/tasks").then(({data}) => data);
 }
 
-function updateTask() {
-    return httpClient.put("/tasks").then(({data}) => data);
+function updateTask(taskId, task) {
+    return httpClient.patch(`/tasks/${taskId}`, task).then(({data}) => data);
 }
 
 function deleteTask() {

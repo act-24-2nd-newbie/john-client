@@ -6,9 +6,10 @@
     line-height: 24px;
 
     &.border {
+        height: 60px;
         border: 1px solid #2a82f0;
         border-radius: 4px;
-        padding: 18px 16px;
+        padding: 0 16px;
         background-color: #fff;
 
         & .input-wrapper {
