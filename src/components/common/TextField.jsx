@@ -1,5 +1,6 @@
 import {forwardRef, useEffect, useImperativeHandle, useRef, useState} from "react";
 import styles from './TextField.module.css';
+import commonUtil from "../../utils/commonUtil.js";
 
 function TextField({
                        width = '100%',
@@ -16,16 +17,7 @@ function TextField({
     const textFieldRef = useRef(null);
 
     useEffect(() => {
-        function handleOutsideClick(e) {
-            if (textFieldRef.current && !textFieldRef.current.contains(e.target)) {
-                onClickOutside?.();
-            }
-        }
-
-        document.addEventListener('click', handleOutsideClick);
-        return () => {
-            document.removeEventListener('click', handleOutsideClick);
-        }
+        return commonUtil.registerOutsideClickHandler(textFieldRef, onClickOutside);
     }, []);
 
     useEffect(() => {

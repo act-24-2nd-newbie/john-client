@@ -5,7 +5,7 @@ export default function TaskItem({
                                      task,
                                      onClickContents,
                                      onClickCheckbox,
-    onClickDeleteIcon
+                                     onClickDeleteIcon
                                  }) {
     function formattedDate() {
         const createdDateString = `Created: ${dateUtil.getFormattedDate(task.createdDate, 'MM/DD HH:mm')}`;
@@ -17,8 +17,8 @@ export default function TaskItem({
         !task.isDone && onClickContents?.(e, task.id);
     }
 
-    function handleCheckboxClick(e) {
-        onClickCheckbox?.(e, task.id);
+    function handleCheckboxClick() {
+        onClickCheckbox?.(task.id);
     }
 
     function handleDeleteIconClick() {

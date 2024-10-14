@@ -1,8 +1,13 @@
-import { atom } from 'recoil';
+import {atom} from 'recoil';
 
 const loginState = atom({
-  key: 'isLoggedIn',
-  default: false,
+    key: 'isLoggedIn',
+    default: false,
 });
 
-export { loginState };
+const toastsState = atom({
+    key: 'toasts',
+    default: [],
+})
+
+export {loginState, toastsState};

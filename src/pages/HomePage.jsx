@@ -6,8 +6,9 @@ import taskService from "../services/taskService.js";
 import TaskItem from "../components/TaskItem.jsx";
 import Button from "../components/common/Button.jsx";
 import Dropdown from "../components/common/Dropdown.jsx";
-import {SORT_KEY, SORT_OPTIONS} from "../contants/commonConstants.js";
+import {SORT_KEY, SORT_OPTIONS, TASK_MESSAGE} from "../contants/commonConstants.js";
 import dateUtil from "../utils/dateUtil.js";
+import {useToast} from "../hooks/useToast.js";
 
 export default function HomePage() {
     const [tasks, setTasks] = useState([]);
@@ -17,6 +18,7 @@ export default function HomePage() {
     const navigate = useNavigate();
     const userName = sessionStorage.getItem("userName");
     const inputRef = useRef(null);
+    const {addToast} = useToast();
 
     useEffect(() => {
         !userName && navigate('/login');
@@ -52,6 +54,7 @@ export default function HomePage() {
 
     async function handleSubmit() {
         await taskService.createTask({contents});
+        addToast(TASK_MESSAGE.CREATED);
         setContents('');
         await getTasks();
     }
@@ -70,22 +73,26 @@ export default function HomePage() {
         if (task.contents === contents) {
             inputRef?.current?.focus();
         } else {
-            await updateTask(taskId, {contents, isDone: task.isDone})
+            await updateTask(taskId, {contents, isDone: task.isDone});
+            addToast(TASK_MESSAGE.UPDATED);
         }
     }
 
-    async function handleCheckboxClick(e, taskId) {
+    async function handleCheckboxClick(taskId) {
         const task = tasks.find(task => task.id === taskId);
-        await updateTask(taskId, {contents: task.contents, isDone: e.target.checked})
+        await updateTask(taskId, {contents: task.contents, isDone: !task.isDone});
+        !task.isDone && addToast(TASK_MESSAGE.DONE);
     }
 
     async function handleDeleteIconClick(taskId) {
         await taskService.deleteTask(taskId);
+        addToast(TASK_MESSAGE.DELETED);
         await getTasks();
     }
 
     async function handleDeleteAllClick() {
         await taskService.deleteAllTasks();
+        addToast(TASK_MESSAGE.DELETE_ALL);
         await getTasks();
     }
 
@@ -113,7 +120,7 @@ export default function HomePage() {
                                   onSelect={handleSortOrderSelect}/>
                     </div>
                     <div className={styles['clear-all-button-wrapper']}>
-                        <Button onClick={handleDeleteAllClick}>Clear All</Button>
+                        <Button disabled={!tasks.length} onClick={handleDeleteAllClick}>Clear All</Button>
                     </div>
                 </div>
                 {tasks.length ? <div className={styles['todo-container']}>

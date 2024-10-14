@@ -3,6 +3,7 @@ import {Outlet} from "react-router-dom";
 import {useRecoilState} from "recoil";
 import {loginState} from "./atoms.js";
 import {useEffect} from "react";
+import ToastContainer from "./components/common/ToastContainer.jsx";
 
 export default function Layout() {
     const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
@@ -13,6 +14,7 @@ export default function Layout() {
     return <>
         <TopBar isLoggedIn={isLoggedIn}/>
         <Outlet/>
+        <ToastContainer/>
     </>;
 }
 

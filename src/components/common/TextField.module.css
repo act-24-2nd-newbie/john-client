@@ -3,7 +3,7 @@
     align-items: center;
     gap: 8px;
     font-weight: 400;
-    line-height: 24px;
+    line-height: 1.5;
 
     &.border {
         height: 60px;

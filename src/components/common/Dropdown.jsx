@@ -1,9 +1,17 @@
 import styles from './Dropdown.module.css';
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
+import commonUtil from "../../utils/commonUtil.js";
 
 export default function Dropdown({options, selectedOptionKey, onSelect}) {
     const [isOpen, setIsOpen] = useState(false);
+    const dropDownRef = useRef(null);
     const selectedOption = options.find(option => option.key === selectedOptionKey);
+
+    useEffect(() => {
+        return commonUtil.registerOutsideClickHandler(dropDownRef, () => {
+            setIsOpen(false);
+        });
+    }, []);
 
     function handleDropdownClick() {
         setIsOpen((prev) => !prev);
@@ -15,7 +23,7 @@ export default function Dropdown({options, selectedOptionKey, onSelect}) {
     }
 
     return (
-        <div className={`${styles['dropdown']} ${isOpen && styles['opened']}`}>
+        <div ref={dropDownRef} className={`${styles['dropdown']} ${isOpen && styles['opened']}`}>
             <div className={styles['dropdown-item-wrapper']} onClick={handleDropdownClick}>
                 <div className={styles['dropdown-label']}>
                     {selectedOption.label}

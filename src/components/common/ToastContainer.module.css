@@ -1,0 +1,35 @@
+.toast-container {
+    position: fixed;
+    bottom: 40px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+
+    .toast-wrapper {
+        display: flex;
+        padding: 16px 20px;
+        width: 600px;
+        background: #000000CC;
+        color: #fff;
+        border-radius: 6px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+
+        .toast-message-wrapper {
+            font-size: 16px;
+            word-break: break-all;
+            line-height: 1.5;
+            flex: 1;
+        }
+
+        .toast-close-button-wrapper {
+            flex: 0 0 24px;
+            height: 24px;
+            background: url("../../assets/ico_close_24_white.svg") no-repeat;
+            cursor: pointer;
+        }
+    }
+}
