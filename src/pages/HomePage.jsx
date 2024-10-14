@@ -5,6 +5,8 @@ import TextField from "../components/common/TextField.jsx";
 import taskService from "../services/taskService.js";
 import TaskItem from "../components/TaskItem.jsx";
 import Button from "../components/common/Button.jsx";
+import Dropdown from "../components/common/Dropdown.jsx";
+import {SORT_KEY, SORT_OPTIONS} from "../contants/commonConstants.js";
 
 export default function HomePage() {
     const navigate = useNavigate();
@@ -12,6 +14,7 @@ export default function HomePage() {
     const [tasks, setTasks] = useState([]);
     const [contents, setContents] = useState('');
     const [selectedTaskId, setSelectedTaskId] = useState(null);
+    const [selectedOptionKey, setSelectedOptionKey] = useState(SORT_KEY.OLDEST);
     const inputRef = useRef(null);
 
     useEffect(() => {
@@ -25,9 +28,15 @@ export default function HomePage() {
         inputRef?.current?.focus();
     }, [selectedTaskId]);
 
+    const sortedTasks = tasks.toSorted(({createdDate: a}, {createdDate: b}) => ((new Date(b) - new Date(a)) * (SORT_KEY.OLDEST === selectedOptionKey ? 1 : -1)));
+
+    function handleSortOrderSelect(key) {
+        setSelectedOptionKey(key);
+    }
+
     async function getTasks() {
-        const todos = await taskService.getTasks();
-        setTasks(todos.sort((a, b) => ((new Date(b) - new Date(a)) * -1)));
+        const tasks = await taskService.getTasks();
+        setTasks(tasks);
     }
 
     async function updateTask(taskId, task) {
@@ -79,6 +88,7 @@ export default function HomePage() {
         await getTasks();
     }
 
+
     return (
         <div className={styles['home-page']}>
             <div className={styles['top-area']}>
@@ -96,14 +106,15 @@ export default function HomePage() {
             <div className={styles['todo-list-wrapper']}>
                 <div className={styles['top-area']}>
                     <div className={styles['drop-down-wrapper']}>
-                        <div style={{height: '40px', background: '#fff'}}>드랍다운</div>
+                        <Dropdown options={SORT_OPTIONS} selectedOptionKey={selectedOptionKey}
+                                  onSelect={handleSortOrderSelect}/>
                     </div>
                     <div className={styles['clear-all-button-wrapper']}>
                         <Button onClick={handleDeleteAllClick}>Clear All</Button>
                     </div>
                 </div>
                 {tasks.length ? <div className={styles['todo-container']}>
-                        {tasks.map(todo => {
+                        {sortedTasks.map(todo => {
                             return selectedTaskId === todo.id ?
                                 <TextField ref={inputRef} key={todo.id} value={todo.contents} showBorder
                                            onClickOutside={handleOutsideClick}
