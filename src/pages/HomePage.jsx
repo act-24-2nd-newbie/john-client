@@ -7,14 +7,15 @@ import TaskItem from "../components/TaskItem.jsx";
 import Button from "../components/common/Button.jsx";
 import Dropdown from "../components/common/Dropdown.jsx";
 import {SORT_KEY, SORT_OPTIONS} from "../contants/commonConstants.js";
+import dateUtil from "../utils/dateUtil.js";
 
 export default function HomePage() {
-    const navigate = useNavigate();
-    const userName = sessionStorage.getItem("userName");
     const [tasks, setTasks] = useState([]);
     const [contents, setContents] = useState('');
     const [selectedTaskId, setSelectedTaskId] = useState(null);
     const [selectedOptionKey, setSelectedOptionKey] = useState(SORT_KEY.OLDEST);
+    const navigate = useNavigate();
+    const userName = sessionStorage.getItem("userName");
     const inputRef = useRef(null);
 
     useEffect(() => {
@@ -30,10 +31,6 @@ export default function HomePage() {
 
     const sortedTasks = tasks.toSorted(({createdDate: a}, {createdDate: b}) => ((new Date(b) - new Date(a)) * (SORT_KEY.OLDEST === selectedOptionKey ? 1 : -1)));
 
-    function handleSortOrderSelect(key) {
-        setSelectedOptionKey(key);
-    }
-
     async function getTasks() {
         const tasks = await taskService.getTasks();
         setTasks(tasks);
@@ -43,6 +40,10 @@ export default function HomePage() {
         await taskService.updateTask(taskId, task);
         setSelectedTaskId(null);
         await getTasks();
+    }
+
+    function handleSortOrderSelect(key) {
+        setSelectedOptionKey(key);
     }
 
     function handleChangeTodo(text) {
@@ -92,10 +93,12 @@ export default function HomePage() {
     return (
         <div className={styles['home-page']}>
             <div className={styles['top-area']}>
-                <div className={styles['text-wrapper']}>Good afternoon, Lily.</div>
+                <div className={styles['text-wrapper']}>{`Good ${dateUtil.getTimeOfDay()}, ${userName}`}</div>
                 <div>
                     <div className={styles['text-wrapper']}>{`You've got`}</div>
-                    <div className={styles['number-wrapper']}>2 / 2</div>
+                    <div className={styles['number-wrapper']}>
+                        {`${tasks.filter(({isDone}) => (!isDone)).length} / ${tasks.length}`}
+                    </div>
                     <div className={styles['text-wrapper']}>tasks Today</div>
                 </div>
                 <div className={styles['text-field-wrapper']}>
