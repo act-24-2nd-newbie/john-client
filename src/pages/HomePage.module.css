@@ -2,6 +2,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 
     & > .top-area {
         display: flex;
@@ -32,6 +33,7 @@
         flex: 1;
         background-color: #f4f4f4;
         padding: 24px 52px;
+        overflow: auto;
 
         & > .top-area {
             display: flex;
