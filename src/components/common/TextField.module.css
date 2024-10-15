@@ -92,9 +92,13 @@
         }
     }
 
-    & .error-message-wrapper {
+    & .error-message-wrapper, & .custom-message-wrapper {
         font-size: 12px;
         line-height: 1.5;
         color: #D15050;
+
+        &.valid {
+            color: #2a82f0;
+        }
     }
 }

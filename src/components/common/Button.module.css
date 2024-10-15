@@ -5,9 +5,32 @@
     border-radius: 4px;
     border: none;
     user-select: none;
+    width: 90px;
+    height: 36px;
+    line-height: 1.5;
+    display: flex;
+    justify-content: center;
 
     &:hover {
         background: rgba(0, 0, 0, 0.08);
+    }
+
+    &.bordered {
+        border: 1px solid #0000004D;
+        background: #FFFFFF;
+
+        &:hover {
+            background: rgba(0, 0, 0, 0.08);
+        }
+    }
+
+    &.primary {
+        color: #fff;
+        background-color: #2a82f0;
+
+        &:hover {
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(0deg, #2A82F0, #2A82F0);
+        }
     }
 
     &.disabled {
@@ -16,6 +39,25 @@
 
         &:hover {
             background: none;
+        }
+    }
+
+    &.small {
+        width: 69px;
+        height: 32px;
+        line-height: 1.25;
+        padding: 6px 12px;
+    }
+
+
+    &.done {
+        width: 69px;
+        height: 32px;
+        background: url("../../assets/btn_check.svg") no-repeat center;
+        cursor: unset;
+
+        &:hover {
+            background: url("../../assets/btn_check.svg") no-repeat center;
         }
     }
 }

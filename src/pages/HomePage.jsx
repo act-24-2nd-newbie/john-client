@@ -126,7 +126,7 @@ export default function HomePage() {
                 {tasks.length ? <div className={styles['todo-container']}>
                         {sortedTasks.map(todo => {
                             return selectedTaskId === todo.id ?
-                                <TextField ref={inputRef} key={todo.id} value={todo.contents} showBorder
+                                <TextField ref={inputRef} key={todo.id} value={todo.contents} bordered
                                            onClickOutside={handleOutsideClick}
                                            onSubmit={async (contents) => {
                                                await handleTasksChange(todo.id, contents)

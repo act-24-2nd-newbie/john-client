@@ -7,5 +7,8 @@ const TASK_MESSAGE = {
     DELETED: 'Task has been deleted',
     DELETE_ALL: 'All Tasks have been deleted',
 }
+const MEMBER_MESSAGE = {
+    CREATED: 'Registered successfully.',
+}
 
-export {SORT_OPTIONS, SORT_KEY, TASK_MESSAGE};
+export {SORT_OPTIONS, SORT_KEY, TASK_MESSAGE, MEMBER_MESSAGE};

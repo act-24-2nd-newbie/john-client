@@ -8,8 +8,8 @@ export default function LoginPage() {
     const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
 
-    function handleSubmit(value) {
-        sessionStorage.setItem('userName', value);
+    function handleLogin(email) {
+        sessionStorage.setItem('userName', email);
         setIsLoggedIn(true);
         navigate('/home');
     }
@@ -20,10 +20,10 @@ export default function LoginPage() {
                 {'Welcome Newbie!!\nMyTodo makes it easy to stay organized and manage your life.'}
             </div>
             <div className={styles['title-wrapper']}>
-                {'What is your name?'}
+                {'What is your email?'}
             </div>
             <div className={styles['text-field-wrapper']}>
-                <TextField placeholder={'Input your name'} onSubmit={handleSubmit}/>
+                <TextField placeholder={'Input your email'} onSubmit={handleLogin}/>
             </div>
         </div>
     )

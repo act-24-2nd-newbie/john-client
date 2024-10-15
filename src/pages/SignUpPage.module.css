@@ -1,0 +1,40 @@
+.sign-up-page {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    padding: 60px;
+
+    .sign-up-wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 440px;
+        gap: 32px;
+
+        .sign-up-page__title {
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1.5;
+            color: #2C3E50;
+        }
+
+        .sign-up-page__input-area {
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+
+            & > .input-wrapper {
+                height: 70px;
+
+                & > .label {
+                    font-size: 12px;
+                    line-height: 20px;
+                }
+            }
+        }
+        .sign-up-page__button-container{
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+    }
+}
