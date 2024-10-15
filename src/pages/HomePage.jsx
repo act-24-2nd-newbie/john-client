@@ -16,15 +16,18 @@ export default function HomePage() {
     const [selectedTaskId, setSelectedTaskId] = useState(null);
     const [selectedOptionKey, setSelectedOptionKey] = useState(SORT_KEY.OLDEST);
     const navigate = useNavigate();
-    const {userName = '', id: userId} = JSON.parse(sessionStorage.getItem("user"));
+    const {userName = '', id: userId} = JSON.parse(sessionStorage.getItem("user")) ?? {};
     const inputRef = useRef(null);
     const {addToast} = useToast();
 
     useEffect(() => {
-        !userName && navigate('/login');
-        (async () => {
-            await getTasks();
-        })();
+        if (!userName) {
+            navigate('/login');
+        } else {
+            (async () => {
+                await getTasks();
+            })();
+        }
     }, [])
 
     useEffect(() => {

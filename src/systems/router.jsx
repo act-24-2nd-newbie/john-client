@@ -1,21 +1,25 @@
-import {createBrowserRouter} from "react-router-dom";
+import {createBrowserRouter, Navigate} from "react-router-dom";
 import LoginPage from "../pages/LoginPage.jsx";
 import Layout from "../Layout.jsx";
 import HomePage from "../pages/HomePage.jsx";
 import SignUpPage from "../pages/SignUpPage.jsx";
+import NotFoundPage from "../pages/NotFoundPage.jsx";
+
+const ProtectedRoute = ({children}) => {
+    return !sessionStorage.getItem("user") ? <Navigate to="/login" replace/> : children;
+};
 
 const router = createBrowserRouter([
     {
-        path: '',
         element: <Layout/>,
         children: [
             {
-                path: '',
-                element: <HomePage/>,
+                path: '/',
+                element: <Navigate to="/home" replace/>,
             },
             {
                 path: '/home',
-                element: <HomePage/>,
+                element: (<ProtectedRoute> <HomePage/> </ProtectedRoute>),
             },
             {
                 path: '/login',
@@ -25,6 +29,10 @@ const router = createBrowserRouter([
                 path: '/signup',
                 element: <SignUpPage/>,
             },
+            {
+                path: "*",
+                element: <NotFoundPage/>
+            }
         ],
     },
 ]);

@@ -1,0 +1,4 @@
+.not-found-page {
+    flex: 1;
+    background: url("../assets/illust_error.svg") center center no-repeat;
+}
