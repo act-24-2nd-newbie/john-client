@@ -8,11 +8,14 @@ function TextField({
                        showBorder = false,
                        placeholder = 'Hint text',
                        maxLength = 255,
+                       type = 'text',
+                       errorMessage = 'error message',
                        onChange,
                        onSubmit,
                        onClickOutside
                    }, ref) {
     const [innerValue, setInnerValue] = useState(value);
+    const [isValid, setIsValid] = useState(true);
     const inputRef = useRef(null);
     const textFieldRef = useRef(null);
 
@@ -30,13 +33,25 @@ function TextField({
         }
     }))
 
+    function validate() {
+        let regex;
+        if (type === 'text') {
+            regex = /^[ㄱ-ㅎ가-힣a-zA-Z0-9\s]+$/;
+        } else if (type === 'email') {
+            regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        }
+        setIsValid(regex.test(innerValue));
+    }
+
     function handleChangeValue(e) {
         const text = e.target.value;
+        setIsValid(true);
         setInnerValue(text);
         onChange?.(text);
     }
 
     function handleClearClick() {
+        setIsValid(true);
         setInnerValue('');
         inputRef.current.focus();
     }
@@ -46,30 +61,35 @@ function TextField({
     }
 
     function handleSubmit() {
-        trimmedValue() && onSubmit?.(innerValue);
+        if (trimmedValue()) {
+            validate();
+            isValid && onSubmit();
+        }
     }
 
     function trimmedValue() {
         return innerValue.trim();
     }
 
-    return (<div ref={textFieldRef}
-                 className={`${styles['text-field']} ${showBorder ? styles['border'] : styles['no-border']}`}
-                 style={{width: width}}>
-        <div className={styles['input-wrapper']}>
-            <input ref={inputRef} value={innerValue} maxLength={maxLength} onChange={handleChangeValue}
-                   placeholder={placeholder}
-                   onKeyDown={handleKeyDown}/>
-            {
-                trimmedValue() && !showBorder &&
-                <div className={styles['clear-button-wrapper']}>
-                    <div className={styles['clear-button']} onClick={handleClearClick}/>
-                </div>
-            }
+    return (<div ref={textFieldRef} className={`${styles['text-field']}`} style={{width: width}}>
+        <div
+            className={`${styles['input-area']} ${showBorder ? styles['border'] : styles['no-border']} ${!isValid && styles['invalid']}`}>
+            <div className={styles['input-wrapper']}>
+                <input ref={inputRef} value={innerValue} maxLength={maxLength} onChange={handleChangeValue}
+                       placeholder={placeholder}
+                       onKeyDown={handleKeyDown}/>
+                {
+                    trimmedValue() && !showBorder &&
+                    <div className={styles['clear-button-wrapper']}>
+                        <div className={styles['clear-button']} onClick={handleClearClick}/>
+                    </div>
+                }
+            </div>
+            <div className={styles['send-button-wrapper']} onClick={handleSubmit}>
+                <div className={`${styles['send-button']} ${!(isValid && trimmedValue()) && styles.disabled}`}/>
+            </div>
         </div>
-        <div className={styles['send-button-wrapper']} onClick={handleSubmit}>
-            <div className={`${styles['send-button']} ${!trimmedValue() && styles.disabled}`}/>
-        </div>
+        {!isValid && <div className={styles['error-message-wrapper']}>{errorMessage}</div>}
     </div>);
 };
 
