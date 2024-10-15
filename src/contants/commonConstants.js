@@ -9,6 +9,7 @@ const TASK_MESSAGE = {
 }
 const MEMBER_MESSAGE = {
     CREATED: 'Registered successfully.',
+    NOT_REGISTRATION: 'Not registered user.',
 }
 
 export {SORT_OPTIONS, SORT_KEY, TASK_MESSAGE, MEMBER_MESSAGE};

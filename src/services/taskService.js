@@ -4,8 +4,8 @@ function createTask(todo) {
     return httpClient.post("/tasks", todo).then(({data}) => data);
 }
 
-function getTasks() {
-    return httpClient.get("/tasks").then(({data}) => data);
+function getTasks(memberId) {
+    return httpClient.get(`/tasks/members/${memberId}`).then(({data}) => data);
 }
 
 function updateTask(taskId, task) {

@@ -1,8 +1,11 @@
 import styles from './TopBar.module.css';
 import {useMatch, useNavigate} from "react-router-dom";
 import dateUtil from "../utils/dateUtil.js";
+import {useRecoilState} from "recoil";
+import {loginState} from "../atoms.js";
 
-export default function TopBar({isLoggedIn = false}) {
+export default function TopBar() {
+    const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
     const navigate = useNavigate();
     const isSignUpPage = useMatch("/signup");
 
@@ -11,7 +14,13 @@ export default function TopBar({isLoggedIn = false}) {
     }
 
     function handleClickRightAreaButton() {
-        navigate("/signup");
+        if (isLoggedIn) {
+            setIsLoggedIn(false);
+            sessionStorage.removeItem('user');
+            navigate("/login")
+        } else {
+            navigate("/signup");
+        }
     }
 
     return (
@@ -23,7 +32,7 @@ export default function TopBar({isLoggedIn = false}) {
             <div className={styles['right-area']}>
                 <div className={styles['date-wrapper']}>{dateUtil.getTodayWithFormattedDate("MM/DD (ddd)")}</div>
                 {!isSignUpPage && <div className={styles['button-wrapper']}
-                                      onClick={handleClickRightAreaButton}>{isLoggedIn ? 'Logout' : 'Sign up'}</div>}
+                                       onClick={handleClickRightAreaButton}>{isLoggedIn ? 'Logout' : 'Sign up'}</div>}
             </div>
         </div>
     );

@@ -16,7 +16,7 @@ export default function HomePage() {
     const [selectedTaskId, setSelectedTaskId] = useState(null);
     const [selectedOptionKey, setSelectedOptionKey] = useState(SORT_KEY.OLDEST);
     const navigate = useNavigate();
-    const userName = sessionStorage.getItem("userName");
+    const {userName = '', id: userId} = JSON.parse(sessionStorage.getItem("user"));
     const inputRef = useRef(null);
     const {addToast} = useToast();
 
@@ -34,7 +34,7 @@ export default function HomePage() {
     const sortedTasks = tasks.toSorted(({createdDate: a}, {createdDate: b}) => ((new Date(b) - new Date(a)) * (SORT_KEY.OLDEST === selectedOptionKey ? 1 : -1)));
 
     async function getTasks() {
-        const tasks = await taskService.getTasks();
+        const tasks = await taskService.getTasks(userId);
         setTasks(tasks);
     }
 
@@ -53,7 +53,7 @@ export default function HomePage() {
     }
 
     async function handleSubmit() {
-        await taskService.createTask({contents});
+        await taskService.createTask({memberId: userId, contents});
         addToast(TASK_MESSAGE.CREATED);
         setContents('');
         await getTasks();

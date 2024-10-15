@@ -9,10 +9,11 @@ export default function Layout() {
     const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
 
     useEffect(() => {
-        sessionStorage.getItem("userName") && setIsLoggedIn(true);
+        sessionStorage.getItem("user") && setIsLoggedIn(true);
     }, []);
+
     return <>
-        <TopBar isLoggedIn={isLoggedIn}/>
+        <TopBar/>
         <Outlet/>
         <ToastContainer/>
     </>;

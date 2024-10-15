@@ -45,7 +45,7 @@ function TextField({
     function validate() {
         let regex;
         if (type === TEXT_FIELD_TYPE.TEXT) {
-            regex = /^[ㄱ-ㅎ가-힣a-zA-Z0-9\s]+$/;
+            regex = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9\s.?@,!'"]+$/;
         } else if (type === TEXT_FIELD_TYPE.EMAIL) {
             regex = /^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/;
         }
