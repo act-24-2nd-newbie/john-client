@@ -2,39 +2,44 @@ import {forwardRef, useEffect, useImperativeHandle, useRef, useState} from "reac
 import styles from './TextField.module.css';
 import commonUtil from "../../utils/commonUtil.js";
 import Button from "./Button.jsx";
-
-export const TEXT_FIELD_TYPE = {
-    TEXT: 'text',
-    EMAIL: 'email',
-}
+import {TEXT_FIELD_TYPE} from "../../contants/commonConstants.js";
 
 function TextField({
-                       width = '100%',
                        value = '',
                        bordered = false,
                        showButton = true,
                        placeholder = 'Hint text',
                        maxLength = 255,
                        type = TEXT_FIELD_TYPE.TEXT,
-                       customStatus = {valid: true, show: false, message: '', done: false},
                        valid = true,
+                       message = '',
                        onChange,
                        onSubmit,
                        onClickOutside
                    }, ref) {
     const [innerValue, setInnerValue] = useState(value);
-    const [isValid, setIsValid] = useState(valid);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [isValid, setIsValid] = useState(true);
+    const [currentMsg, setCurrentMsg] = useState('');
     const inputRef = useRef(null);
     const textFieldRef = useRef(null);
 
+    const trimmedValue = innerValue.trim();
+
     useEffect(() => {
         return commonUtil.registerOutsideClickHandler(textFieldRef, onClickOutside);
-    }, []);
+    }, [onClickOutside]);
 
     useEffect(() => {
         setInnerValue(value);
     }, [value]);
+
+    useEffect(() => {
+        setCurrentMsg(message);
+    }, [message]);
+
+    useEffect(() => {
+        setIsValid(valid);
+    }, [valid]);
 
     useImperativeHandle(ref, () => ({
         focus: () => {
@@ -51,7 +56,7 @@ function TextField({
         }
 
         if (!regex.test(innerValue)) {
-            setErrorMessage('invalid format');
+            setCurrentMsg('Invalid ' + type + ' format');
             setIsValid(false);
             return false;
         }
@@ -63,14 +68,14 @@ function TextField({
     function handleChangeValue(e) {
         const text = e.target.value;
         setIsValid(true);
-        setErrorMessage('');
+        setCurrentMsg('');
         setInnerValue(text);
         onChange?.(text);
     }
 
     function handleClearClick() {
         setIsValid(true);
-        setErrorMessage('');
+        setCurrentMsg('');
         setInnerValue('');
         inputRef.current.focus();
         onChange?.('');
@@ -81,25 +86,23 @@ function TextField({
     }
 
     function handleSubmit() {
-        if (trimmedValue()) {
-            const valid = validate();
-            valid && !customStatus?.done && onSubmit(innerValue, valid);
-        }
+        validate() && onSubmit?.(innerValue);
     }
 
-    function trimmedValue() {
-        return innerValue.trim();
-    }
-
-    return (<div ref={textFieldRef} className={`${styles['text-field']}`} style={{width: width}}>
+    return (<div ref={textFieldRef} className={`${styles['text-field']}`}>
         <div
-            className={`${styles['input-area']} ${bordered ? styles['border'] : styles['no-border']} ${(!isValid || !customStatus?.valid) && styles['invalid']}`}>
+            className={`${styles['input-area']} ${bordered ? styles['border'] : styles['no-border']} ${(!isValid) && styles['invalid']}`}>
             <div className={styles['input-wrapper']}>
-                <input ref={inputRef} value={innerValue} maxLength={maxLength} onChange={handleChangeValue}
-                       placeholder={placeholder}
-                       onKeyDown={handleKeyDown}/>
+                <input
+                    ref={inputRef}
+                    value={innerValue}
+                    maxLength={maxLength}
+                    onChange={handleChangeValue}
+                    placeholder={placeholder}
+                    onKeyDown={handleKeyDown}
+                />
                 {
-                    trimmedValue() && !bordered &&
+                    trimmedValue && !bordered &&
                     <div className={styles['clear-button-wrapper']}>
                         <div className={styles['clear-button']} onClick={handleClearClick}/>
                     </div>
@@ -107,21 +110,20 @@ function TextField({
             </div>
             {
                 showButton &&
-                <div className={styles['send-button-wrapper']} onClick={handleSubmit}>
+                <div className={styles['send-button-wrapper']}>
                     {
-                        type === 'text' ?
-                            <div
-                                className={`${styles['send-button']} ${!(isValid && trimmedValue()) && styles.disabled}`}/>
-                            : (<Button disabled={!isValid} bordered small done={!!customStatus?.done}>Check</Button>)
+                        type === 'text' ? <div
+                            className={`${styles['send-button']} ${!(isValid && trimmedValue) && styles.disabled}`}
+                            onClick={handleSubmit}/> : (
+                            !(isValid && currentMsg)
+                                ? (<Button disabled={!isValid} bordered small onClick={handleSubmit}>Check</Button>)
+                                : <div className={styles['checked-icon-wrapper']}/>
+                        )
                     }
                 </div>
-
             }
         </div>
-        {!isValid && <div className={styles['error-message-wrapper']}>{errorMessage}</div>}
-        {(customStatus?.show && customStatus?.message) &&
-            <div
-                className={`${styles['custom-message-wrapper']} ${customStatus?.valid && styles['valid']}`}>{customStatus.message}</div>}
+        {currentMsg && <div className={`${styles['message-wrapper']} ${isValid && styles['valid']}`}>{currentMsg}</div>}
     </div>);
 }
 

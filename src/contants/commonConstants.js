@@ -11,5 +11,9 @@ const MEMBER_MESSAGE = {
     CREATED: 'Registered successfully.',
     NOT_REGISTRATION: 'Not registered user.',
 }
+const TEXT_FIELD_TYPE = {
+    TEXT: 'text',
+    EMAIL: 'email',
+}
 
-export {SORT_OPTIONS, SORT_KEY, TASK_MESSAGE, MEMBER_MESSAGE};
+export {SORT_OPTIONS, SORT_KEY, TASK_MESSAGE, MEMBER_MESSAGE, TEXT_FIELD_TYPE};

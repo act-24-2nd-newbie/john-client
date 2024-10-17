@@ -89,10 +89,19 @@
                     background-image: url("../../assets/ic_send_disabled.svg");
                 }
             }
+
+            & .checked-icon-wrapper {
+                width: 69px;
+                height: 32px;
+                border: 1px solid #0000004D;
+                border-radius: 4px;
+                background: url("../../assets/btn_check.svg") no-repeat center;
+                cursor: unset;
+            }
         }
     }
 
-    & .error-message-wrapper, & .custom-message-wrapper {
+    & .message-wrapper {
         font-size: 12px;
         line-height: 1.5;
         color: #D15050;

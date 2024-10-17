@@ -26,19 +26,14 @@
 
     &.primary {
         color: #fff;
-        background-color: #2a82f0;
+        background: #2a82f0;
 
         &:hover {
             background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(0deg, #2A82F0, #2A82F0);
         }
-    }
 
-    &.disabled {
-        opacity: 0.2;
-        cursor: default;
-
-        &:hover {
-            background: none;
+        &.disabled:hover {
+            background: #2a82f0;
         }
     }
 
@@ -49,15 +44,9 @@
         padding: 6px 12px;
     }
 
-
-    &.done {
-        width: 69px;
-        height: 32px;
-        background: url("../../assets/btn_check.svg") no-repeat center;
-        cursor: unset;
-
-        &:hover {
-            background: url("../../assets/btn_check.svg") no-repeat center;
-        }
+    &.disabled {
+        opacity: 0.2;
+        pointer-events: none;
+        cursor: default;
     }
 }
